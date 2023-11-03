@@ -10,12 +10,33 @@ class Task:
         self._due_date = due_date
 
 
+tasks = []
+
+
 def add_task():
-    pass
+    input_text = ""
+
+    def add():
+        input_text = entry_task.get(1.0, "end-1c")
+        if input_text == "":
+            tkinter.messagebox.showwarning(title="Warning", message="Please enter a valid task")
+        else:
+            listbox_task.insert(END, input_text)
+            secondary_window.destroy()
+
+    secondary_window = Tk()
+    secondary_window.title("Add Task")
+    entry_task = Text(secondary_window, width=40, height=4)
+    entry_task.pack()
+    secondary_button = Button(secondary_window, text="Add Task", command=add)
+    secondary_button.pack()
+
+    secondary_window.mainloop()
 
 
 def delete_task():
-    pass
+    selected = listbox_task.curselection()
+    listbox_task.delete(selected[0])
 
 
 def save_task():
@@ -27,7 +48,14 @@ def load_task():
 
 
 def mark_task():
-    pass
+    marked = listbox_task.curselection()
+    temp = marked[0]
+    # Store the text of the selected item in a temporary string
+    temp_marked = listbox_task.get(temp)
+    # Update
+    temp_marked = temp_marked + " Done"
+    listbox_task.delete(temp)
+    listbox_task.insert(temp, temp_marked)
 
 
 # Main Window
@@ -57,11 +85,11 @@ add_button.pack(pady=3)
 delete_button = Button(window, text="Delete selected", width=50, command=delete_task)
 delete_button.pack(pady=3)
 
-save_button = Button(window, text="Save selected", width=50, command=save_task)
-save_button.pack(pady=3)
+# save_button = Button(window, text="Save selected", width=50, command=save_task)
+# save_button.pack(pady=3)
 
-load_button = Button(window, text="Load task", width=50, command=load_task)
-load_button.pack(pady=3)
+# load_button = Button(window, text="Load task", width=50, command=load_task)
+# load_button.pack(pady=3)
 
 mark_finished = Button(window, text="Mark as finished", width=50, command=mark_task)
 mark_finished.pack(pady=3)
